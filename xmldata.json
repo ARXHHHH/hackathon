@@ -1,0 +1,4 @@
+{
+  "type": "XMLTOJSON",
+  "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><items><item><name>Product A</name><category>Electronics</category><details><price>299.99</price><manufacturer><name>TechCo</name><location>USA</location></manufacturer></details></item><item><name>Product B</name><category>Electronics</category><details><price>399.99</price><manufacturer><name>GizmoWorks</name><location>Canada</location></manufacturer></details></item></items>"
+}
