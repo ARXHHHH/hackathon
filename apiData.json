@@ -1,0 +1,150 @@
+{
+  "type": "CSV",
+  "data": [
+    {
+      "name": "Product A",
+      "category": "Electronics",
+      "details": {
+        "price": 299.99,
+        "manufacturer": {
+          "name": "TechCo",
+          "location": "USA"
+        }
+      }
+    },
+    {
+      "name": "Product B",
+      "category": "Electronics",
+      "details": {
+        "price": 399.99,
+        "manufacturer": {
+          "name": "GizmoWorks",
+          "location": "Canada"
+        }
+      }
+    }
+  ]
+}
+{
+  "type": "XLSX",
+  "data": [
+    {
+      "name": "Product A",
+      "category": "Electronics",
+      "details": {
+        "price": 299.99,
+        "manufacturer": {
+          "name": "TechCo",
+          "location": "USA"
+        }
+      }
+    },
+    {
+      "name": "Product B",
+      "category": "Electronics",
+      "details": {
+        "price": 399.99,
+        "manufacturer": {
+          "name": "GizmoWorks",
+          "location": "Canada"
+        }
+      }
+    }
+  ]
+}
+{
+  "type": "PDF",
+  "data": {
+    "title": "Annual Report 2024",
+    "headers": ["Section", "Detail"],
+    "rows": [
+      {
+        "Section": "Executive Summary",
+        "Detail": "Detailed overview of the company's performance and milestones achieved in the year 2024."
+      },
+      {
+        "Section": "Financial Overview",
+        "Detail": "Revenue grew by 20% from the previous year. Net profit margins improved by 5%."
+      },
+      {
+        "Section": "Operational Highlights",
+        "Detail": "Expansion into new markets and significant product launches."
+      }
+    ]
+  }
+}
+{
+  "type": "XML",
+  "data": [
+    {
+      "name": "Product A",
+      "category": "Electronics",
+      "details": {
+        "price": 299.99,
+        "manufacturer": {
+          "name": "TechCo",
+          "location": "USA"
+        }
+      }
+    },
+    {
+      "name": "Product B",
+      "category": "Electronics",
+      "details": {
+        "price": 399.99,
+        "manufacturer": {
+          "name": "GizmoWorks",
+          "location": "Canada"
+        }
+      }
+    }
+  ]
+}
+{
+  "type": "MD",
+  "data": [
+    {
+      "name": "Product A",
+      "category": "Electronics",
+      "details": {
+        "price": 299.99,
+        "manufacturer": {
+          "name": "TechCo",
+          "location": "USA"
+        }
+      }
+    },
+    {
+      "name": "Product B",
+      "category": "Electronics",
+      "details": {
+        "price": 399.99,
+        "manufacturer": {
+          "name": "GizmoWorks",
+          "location": "Canada"
+        }
+      }
+    }
+  ]
+}
+{
+  "type": "HTMLPDF",
+  "data": {
+    "title": "Annual Report 2024",
+    "headers": ["Section", "Detail"],
+    "rows": [
+      {
+        "Section": "Executive Summary",
+        "Detail": "Detailed overview of the company's performance and milestones achieved in the year 2024."
+      },
+      {
+        "Section": "Financial Overview",
+        "Detail": "Revenue grew by 20% from the previous year. Net profit margins improved by 5%."
+      },
+      {
+        "Section": "Operational Highlights",
+        "Detail": "Expansion into new markets and significant product launches."
+      }
+    ]
+  }
+}
