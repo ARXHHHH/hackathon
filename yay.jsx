@@ -1,0 +1,219 @@
+import React, { useState } from 'react';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { FileText } from '@phosphor-icons/react';
+import axios from 'axios';
+import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
+import './Home.css';
+const Home = () => {
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [file, setFile] = useState(null);
+  const handleChange = (event) => {
+    setFrom(event.target.value);
+  };
+  const handle = (event) => {
+    setTo(event.target.value);
+  };
+  const handleFileChange = (event) => {
+    const uploadedFile = event.target.files[0];
+    if (uploadedFile) {
+      const validFileTypes = {
+        'JSON': 'application/json',
+        'XML': 'application/xml',
+        'text/xml': 'text/xml' // Sometimes XML files might have this MIME type
+      };
+      const selectedFileType = validFileTypes[from];
+      if (uploadedFile.type === selectedFileType) {
+        setFile(uploadedFile);
+        alert('File uploaded successfully');
+      } else {
+        setFile(null);
+        alert(`Invalid file type. Expected a ${from} file.`);
+      }
+    }
+  };
+  const handleUpload = async () => {
+    if (!file) {
+      alert('No file uploaded');
+      return;
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = async (e) => {
+      const content = e.target.result;
+      let data;
+      if (from === 'JSON') {
+        data = JSON.parse(content);
+      } else if (from === 'XML') {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(content, 'text/xml');
+        data = xmlToJson(xmlDoc);
+      } else {
+        alert('Unsupported file type');
+        return;
+      }
+      const apiPayload = {
+        type: to,
+        data: data,
+      };
+      try {
+        // const response = await axios.post('http://localhost:5000/convert', apiPayload);
+        // console.log(response.headers);
+        // alert('File data sent successfully');
+        axios.post('http://localhost:5000/convert', apiPayload, {responseType: 'blob'}).then(response => {
+          if (response.status===200){
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const a = document.createElement('a');
+            a.href=url;
+            a.download = `output.${to}`
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          } else {
+            console.error("CHal be", response.status, response.statusText);
+          }
+        })
+      } catch (error) {
+        alert('Error sending file data');
+      }
+    };
+    if (from === 'JSON' || from === 'XML') {
+      fileReader.readAsText(file);
+    }
+  };
+  const xmlToJson = (xml) => {
+    let obj = {};
+    if (xml.nodeType === 1) { // element
+      if (xml.attributes.length > 0) {
+        obj["@attributes"] = {};
+        for (let j = 0; j < xml.attributes.length; j++) {
+          const attribute = xml.attributes.item(j);
+          obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+        }
+      }
+    } else if (xml.nodeType === 3) { // text
+      obj = xml.nodeValue;
+    }
+    if (xml.hasChildNodes()) {
+      for (let i = 0; i < xml.childNodes.length; i++) {
+        const item = xml.childNodes.item(i);
+        const nodeName = item.nodeName;
+        if (typeof(obj[nodeName]) === "undefined") {
+          obj[nodeName] = xmlToJson(item);
+        } else {
+          if (typeof(obj[nodeName].push) === "undefined") {
+            const old = obj[nodeName];
+            obj[nodeName] = [];
+            obj[nodeName].push(old);
+          }
+          obj[nodeName].push(xmlToJson(item));
+        }
+      }
+    }
+    return obj;
+  };
+  return (
+    <div className="container">
+      <div className="file-conversions-heading">
+        <h1>POPULAR CONVERSIONS</h1>
+      </div>
+      <div className="file-conversions">
+        <div className="file-conversion-block">
+          <div className="heading">
+            <FileText size={32} />
+            <h3>JSON to CSV</h3>
+          </div>
+          <br />
+          <p className="intro">Reduces the size of a pdf file</p>
+        </div>
+        <div className="file-conversion-block">
+          <h3>JSON to Excel</h3>
+          <br />
+          <p className="intro">
+            Makes it easier and faster for image background removing
+          </p>
+        </div>
+        <div className="file-conversion-block">
+          <h3>JSON to PDF</h3>
+          <br />
+          <p className="intro">
+            It emerges two or more pdf files into a single file.
+          </p>
+        </div>
+      </div>
+      <div className="file-actions-heading">
+        <h1>OTHERS</h1>
+      </div>
+      <div className="file-actions">
+        <div className="file-actions-option">
+          <div className="file-actions-option-from">
+            <FormControl fullWidth>
+              <InputLabel id="from-select-label">From</InputLabel>
+              <Select
+                labelId="from-select-label"
+                id="from-select"
+                value={from}
+                label="From"
+                onChange={handleChange}
+              >
+                <MenuItem value={'JSON'}>JSON</MenuItem>
+                <MenuItem value={'XML'}>XML</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          {from === 'JSON' ? (
+            <div className="file-actions-option-to">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">To</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={to}
+                  label="To"
+                  onChange={handle}
+                >
+                  <MenuItem value={'CSV'}>CSV</MenuItem>
+                  <MenuItem value={'PDF'}>PDF</MenuItem>
+                  <MenuItem value={'XLSX'}>XLSX</MenuItem>
+                  <MenuItem value={'HTML-PDF'}>HTML-PDF</MenuItem>
+                  <MenuItem value={'MD'}>MD</MenuItem>
+                  <MenuItem value={'XML'}>XML</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          ) : (
+            <div className="file-actions-option-to">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">To</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={to}
+                  label="To"
+                  onChange={handle}
+                >
+                  <MenuItem value={'JSON'}>JSON</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          )}
+        </div>
+        <div className="upload-file">
+          <input
+            type="file"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+            id="file-upload"
+          />
+          <button type="button" onClick={() => document.getElementById('file-upload').click()}>Upload File</button>
+          <button type="button" onClick={handleUpload}>Send to API</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default Home;
