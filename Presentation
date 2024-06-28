@@ -1,0 +1,12 @@
+"Good afternoon everyone. Today,I will be presenting our first use case called active inventory trend visualization. We have added a component in the Dashboard of the cnd application that displays no. Of equipments installed for all months when a particular year selected. 
+
+Benefits of this use case is that it helps provides critical insights into installation trends, helping super users or privileged users  understand trends in traffic and understanding capital expenditure for new infrastructure builds. Thank you
+
+Here is a still screenshot of how our component looks in the cnd dashboard
+
+And here is the video of our component working.
+
+and integrated Jenkins Jobs through OnePipeline for continuous integration.
+Additionally, we adopted the SAFe - Scaled Agile Framework to streamline our processes. In the domain of inventory management, we delved into ICON, CND, and Discovery, and emphasized understanding the visualization of equipment in inventory.
+This comprehensive approach has equipped us with the tools and
+knowledge to manage our infrastructure effectively. Thank you
